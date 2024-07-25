@@ -1,0 +1,231 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Qurossword - A javascript crossword puzzle plugin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="jquery.crossword.js"></script>
+    <script src="Data/easy.js"></script>
+    <script src="Data/medium.js"></script> 
+    <script src="script.js"></script>
+
+    <style type="text/css" media="screen">
+        /* Default puzzle styling */
+        body {
+          font-family: 'Helvetica Neue', Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
+          width: 90.3%;
+          margin: 20px auto;
+          background-color: #f8f8f8; /* Light gray background */
+        }
+        
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          max-width: 100%;
+          width: 90%; /* Reduce width by 10% */
+  height: 80%; /* Reduce height by 10% */
+          border: 1px solid #ccc; /* Subtle border around the puzzle */
+        }
+        
+        table tr {
+          width: 100%;
+        }
+        
+        table td {
+          width: 5em;
+          height: 5em;
+          border: 1px solid #ccc; /* Cell borders */
+          padding: 0;
+          margin: 0;
+          background-color: black; /* Set the cell background to black */
+          position: relative;
+        }
+        
+        td input {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          border: none;
+          text-align: center;
+          font-size: 1.5em; /* Larger font for better readability */
+          color: black; /* Ensure text is visible on white background */
+          background-color: white; /* Set the input background to white */
+        }
+        
+        td input:focus {
+          outline: none; /* Remove focus outline */
+          background-color: #f0f0f0; /* Subtle focus highlight */
+        }
+        
+        td span {
+          color: #666;
+          font-size: 0.8em;
+          position: absolute;
+          top: -1px;
+          left: 1px;
+        }
+        
+        input.done {
+          font-weight: bold;
+          color: #3c763d; /* Green for correct answers */
+        }
+        
+        .active, .clues-active {
+          background-color: #e8f0fe; /* Light blue highlight */
+        }
+        
+        .clue-done {
+          color: #999;
+          text-decoration: line-through;
+        }
+        
+        #puzzle-wrapper {
+          float: left;
+          width: 54%;
+          margin-right: 3%;
+        }
+        
+        #puzzle-clues {
+          float: left;
+          width: 40%;
+          font-family: 'Helvetica Neue', Arial, sans-serif;
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        
+        #puzzle-clues li {
+          margin: .3em;
+        }
+        
+        #timer {
+          font-size: 1.2em;
+          text-align: center;
+          margin-top: 20px;
+          background-color: #f0f0f0;
+          padding: 10px;
+        }
+        
+        #score {
+          font-size: 1.2em;
+        }
+        </style>
+        
+    <!-- <style type="text/css" media="screen">
+        /* Default puzzle styling */
+        body {
+          font-family: 'Helvetica Neue', Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
+          width: 90.3%;
+          margin: 20px auto;
+          background-color: #f8f8f8; /* Light gray background */
+        }
+        
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          max-width: 100%;
+          border: 1px solid #ccc; /* Subtle border around the puzzle */
+        }
+        
+        table tr {
+          width: 100%;
+        }
+        
+        table td {
+          width: 5em;
+          height: 5em;
+          border: 1px solid #ccc; /* Cell borders */
+          padding: 0;
+          margin: 0;
+          background-color: #fff; /* White cell background */
+          position: relative;
+        }
+        
+        td input {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          border: none;
+          text-align: center;
+          font-size: 1.5em; /* Larger font for better readability */
+          color: #333;
+          background-color: transparent; /* Transparent background */
+        }
+        
+        td input:focus {
+          outline: none; /* Remove focus outline */
+          background-color: #f0f0f0; /* Subtle focus highlight */
+        }
+        
+        td span {
+          color: #666;
+          font-size: 0.8em;
+          position: absolute;
+          top: -1px;
+          left: 1px;
+        }
+        
+        input.done {
+          font-weight: bold;
+          color: #3c763d; /* Green for correct answers */
+        }
+        
+        .active, .clues-active {
+          background-color: #e8f0fe; /* Light blue highlight */
+        }
+        
+        .clue-done {
+          color: #999;
+          text-decoration: line-through;
+        }
+        
+        #puzzle-wrapper {
+          float: left;
+          width: 54%;
+          margin-right: 3%;
+        }
+        
+        #puzzle-clues {
+          float: left;
+          width: 40%;
+          font-family: 'Helvetica Neue', Arial, sans-serif;
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        
+        #puzzle-clues li {
+          margin: .3em;
+        }
+        
+        #timer {
+          font-size: 1.2em;
+          text-align: center;
+          margin-top: 20px;
+          background-color: #f0f0f0;
+          padding: 10px;
+        }
+        
+        #score {
+          font-size: 1.2em;
+        }
+        </style> -->
+        
+
+</head>
+
+<body>
+    
+    <div id="puzzle-wrapper"></div>
+    <div id="timer">03:00</div>
+    <div id="score">Score: 0</div>
+
+</body>
+</html>

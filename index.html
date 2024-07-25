@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Crossword Game</title>
+    <style>
+        /* Your existing styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .dropdown {
+            margin-top: 20px;
+        }
+        .dropdown select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            transition: border-color 0.3s ease;
+        }
+        .dropdown select:hover {
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Crossword Game</h1>
+    
+    <div class="dropdown">
+        <label for="difficulty">Choose Difficulty Level:</label>
+        <select id="difficulty" name="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
+
+    <a href="game.html" class="button" id="startGame">Start Game</a>
+    
+    <script>
+        document.getElementById('startGame').addEventListener('click', function() {
+            var difficulty = document.getElementById('difficulty').value;
+            localStorage.setItem('crosswordDifficulty', difficulty);
+        });
+    </script>
+</body>
+</html>
